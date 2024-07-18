@@ -1,70 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抽籤程式 (1-100號)</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        button {
-            font-size: 18px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        #result {
-            font-size: 24px;
-            margin-top: 20px;
-        }
-        #remaining {
-            margin-top: 10px;
-        }
-    </style>
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>抽籤程式 (1-100號)</h1>
-        <button onclick="drawNumber()">抽籤</button>
-        <div id="result"></div>
-        <div id="remaining"></div>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
     </div>
 
-    <script>
-        let numbers = Array.from({length: 100}, (_, i) => i + 1);
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        shuffleArray(numbers);
-
-        function drawNumber() {
-            if (numbers.length > 0) {
-                const drawn = numbers.pop();
-                document.getElementById('result').textContent = `抽到的號碼是: ${drawn}`;
-                document.getElementById('remaining').textContent = `剩餘號碼數量: ${numbers.length}`;
-            } else {
-                document.getElementById('result').textContent = "所有號碼已抽完";
-                document.getElementById('remaining').textContent = "";
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
