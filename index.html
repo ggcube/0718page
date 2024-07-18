@@ -1,16 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>大老二遊戲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .card {
+            display: inline-block;
+            width: 50px;
+            height: 70px;
+            margin: 5px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 70px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .played-cards {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="game-container">
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-    </div>
+    <h1>大老二遊戲</h1>
+    <div id="player-hand"></div>
+    <button onclick="playCards()">出牌</button>
+    <div class="played-cards" id="played-cards"></div>
 
-    <script src="script.js"></script>
+    <script>
+        const suits = ['♠', '♥', '♦', '♣'];
+        const values = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'];
+        let playerHand = [];
+        let playedCards = [];
+
+        function createDeck() {
+            let deck = [];
+            for (let suit of suits) {
+                for (let value of values) {
+                    deck.push(value + suit);
+                }
+            }
+            return deck;
+        }
+
+        function shuffle(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+            return deck;
+        }
+
+        function dealCards(deck) {
+            return deck.splice(0, 13);
+        }
+
+        function renderHand(hand) {
+            const handDiv = document.getElementById('player-hand');
+            handDiv.innerHTML = '';
+            for (let card of hand) {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                cardDiv.innerText = card;
+                cardDiv.onclick = () => selectCard(card);
+                handDiv.appendChild(cardDiv);
+            }
+        }
+
+        function selectCard(card) {
+            const index = playerHand.indexOf(card);
+            if (index > -1) {
+                playerHand.splice(index, 1);
+                playedCards.push(card);
+                renderHand(playerHand);
+                renderPlayedCards(playedCards);
+            }
+        }
+
+        function renderPlayedCards(cards) {
+            const playedDiv = document.getElementById('played-cards');
+            playedDiv.innerHTML = '';
+            for (let card of cards) {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                cardDiv.innerText = card;
+                playedDiv.appendChild(cardDiv);
+            }
+        }
+
+        function playCards() {
+            // 此處可以添加遊戲邏輯
+            alert('出牌: ' + playedCards.join(', '));
+            playedCards = [];
+            renderPlayedCards(playedCards);
+        }
+
+        // 初始化遊戲
+        const deck = shuffle(createDeck());
+        playerHand = dealCards(deck);
+        renderHand(playerHand);
+    </script>
 </body>
 </html>
